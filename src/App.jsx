@@ -1,235 +1,174 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-const wallItems = [
-  { label: 'about', href: '#about', className: 'tag-about' },
-  { label: 'writing', href: '#writing', className: 'tag-writing' },
-  { label: 'coding projects', href: '#coding', className: 'tag-coding' },
-]
-
-const writingLinks = [
-  {
-    title: 'Wedding Fever / Short Fiction',
-    venue: 'Short Édition',
-    link: 'https://short-edition.com/en/story/short-fiction/wedding-fever',
-    date: '2026',
-  },
-  {
-    title: 'Zombie Fiction / Poem',
-    venue: 'Poet Lore',
-    link: 'https://x.com/miriamcore_/status/2026466886980915412/photo/1',
-    date: '2025',
-  },
-  {
-    title: 'Americana / Poem',
-    venue: 'The Journal',
-    link: 'https://thejournalmag.org/archives/23816',
-    date: '2026',
-  }
-]
-
-const selectedWriting = [
-  ...writingLinks,
-  {
-    title: 'Another Title / Poem',
-    venue: 'Magazine Name',
-    link: '#',
-    date: '2024',
-  },
-  {
-    title: 'Story Title / Fiction',
-    venue: 'Journal Name',
-    link: '#',
-    date: '2023',
-  },
-]
-
-const codingProjects = [
+const projects = [
   {
     title: 'Generative Wall',
-    date: 'March 2026',
-    type: 'creative coding',
-    repoUrl: 'https://github.com/yourusername/generative-wall',
-    gifSrc: 'project-gifs/one.gif',
+    description:
+      'An endlessly shifting grid of color, built for quiet staring and small surprises.',
+    languageTag: 'TypeScript · Canvas',
+    href: 'https://github.com/yourusername/generative-wall',
+    gifSrc: '/project-gifs/one.gif',
+    marginalia: 'Slow color, small surprise, ambient attention.',
   },
   {
     title: 'Small Useful Tools',
-    date: 'February 2026',
-    type: 'software projects',
-    repoUrl: 'https://github.com/yourusername/small-useful-tools',
-    gifSrc: 'project-gifs/two.gif',
+    description:
+      'A loose bundle of scripts and micro-utilities that make my writing and dev days easier.',
+    languageTag: 'Node · CLI',
+    href: 'https://github.com/yourusername/small-useful-tools',
+    gifSrc: '/project-gifs/two.gif',
+    marginalia: 'Utilities for writing days, maintenance days, in-between days.',
+  },
+]
+
+const writing = [
+  {
+    title: 'Wedding Fever / Short Fiction',
+    description: 'Brief fever dream at the edge of a celebration.',
+    venue: 'Short Édition',
+    href: 'https://short-edition.com/en/story/short-fiction/wedding-fever',
+    date: '2026',
+    note: 'flash',
+  },
+  {
+    title: 'Americana / Poem',
+    description: 'Flyover ghosts, freeway light, and an ache for elsewhere.',
+    venue: 'The Journal',
+    href: 'https://thejournalmag.org/archives/23816',
+    date: '2026',
+    note: 'poem',
+  },
+  {
+    title: 'Zombie Fiction / Poem',
+    description: 'After the teeth marks: what’s left to catalogue.',
+    venue: 'Poet Lore',
+    href: 'https://x.com/miriamcore_/status/2026466886980915412/photo/1',
+    date: '2025',
+    note: 'poem',
+  },
+]
+
+const moreWriting = [
+  {
+    title: 'Working Title / Essay',
+    description: 'On learning, notes, and the strange intimacy of software.',
+    venue: 'In progress',
+    href: '#',
+    date: '—',
+  },
+  {
+    title: 'Drafts Folder / Misc.',
+    description: 'Fragments, abandoned paragraphs, and things that might yet resolve.',
+    venue: 'Elsewhere',
+    href: '#',
+    date: '—',
   },
 ]
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState(() =>
-    window.location.hash === '#/selected-writing' ? 'selected-writing' : 'home',
-  )
-
-  useEffect(() => {
-    const syncPageWithHash = () => {
-      setCurrentPage(window.location.hash === '#/selected-writing' ? 'selected-writing' : 'home')
-    }
-
-    window.addEventListener('hashchange', syncPageWithHash)
-    syncPageWithHash()
-
-    return () => {
-      window.removeEventListener('hashchange', syncPageWithHash)
-    }
-  }, [])
+  const [showMoreWriting, setShowMoreWriting] = useState(false)
+  const visibleWriting = showMoreWriting ? [...writing, ...moreWriting] : writing
 
   return (
-    <div className="page-shell" id="top">
-      <aside className="sidebar">
-        <div className="sidebar-top">
-          <h1 className="site-title">Miriam Alex</h1>
+    <div className="page-root">
+      <header className="site-header">
+        <div className="page-shell header-inner">
+          <div className="site-name">Miriam Alex</div>
         </div>
+      </header>
 
-        <nav className="sidebar-nav" aria-label="Primary">
-          {currentPage === 'selected-writing' ? (
-            <>
-              <a className="sidebar-link" href="#">
-                <span className="sidebar-label">home</span>
-              </a>
-              <a className="sidebar-link" href="#/selected-writing">
-                <span className="sidebar-label">selected writing</span>
-              </a>
-            </>
-          ) : (
-            wallItems.map((item) => (
-              <a
-                key={item.label}
-                className="sidebar-link"
-                href={item.href}
-              >
-                <span className={`sidebar-label ${item.className}`}>{item.label}</span>
-              </a>
-            ))
-          )}
-        </nav>
-
-        <div className="sidebar-links" aria-label="External links">
-          <a href="https://github.com/yourusername" target="_blank" rel="noreferrer">
-            GitHub
-          </a>
-          <a href="https://x.com/miriamcore_" target="_blank" rel="noreferrer">
-            X
-          </a>
-          <a href="mailto:hello@example.com">
-            Email
-          </a>
-        </div>
-
-        <div className="sidebar-footer">
-          <p>New York</p>
-          <p>Writer + engineer</p>
-        </div>
-      </aside>
-
-      <main className="content">
-        {currentPage === 'selected-writing' ? (
-          <section className="panel panel-writing selected-writing-page">
-            <div className="panel-intro">
-              <h2>Selected Writing</h2>
-              <p className="page-note">A fuller archive of poems, stories, and published work.</p>
+      <main id="top" className="page-shell main-layout">
+        <section id="about" className="hero">
+          <p className="hero-intro">
+            Writer and engineer making playful software and literary work.
+          </p>
+          <div className="hero-grid">
+            <div className="hero-copy">
+              <p>
+                I make software, writing, and visual experiments that are playful, clear, and easy
+                to live with.
+              </p>
             </div>
-            <div className="writing-list">
-              <div className="writing-entries">
-                {selectedWriting.map((item) => (
-                  <a
-                    className="writing-entry"
-                    href={item.link}
-                    key={`${item.title}-${item.venue}`}
-                    target={item.link.startsWith('http') ? '_blank' : undefined}
-                    rel={item.link.startsWith('http') ? 'noreferrer' : undefined}
-                  >
-                    <div className="writing-summary">
-                      <div>
-                        <h4>{item.title}</h4>
-                        <p>{item.venue}</p>
-                      </div>
-                      <p className="writing-date">{item.date}</p>
-                    </div>
-                  </a>
-                ))}
+            <div className="hero-note">
+              <p className="hero-note-label">Currently</p>
+              <p>Building small software, publishing poems, and collecting visual studies.</p>
+              <div className="hero-links" aria-label="External links">
+                <a href="https://github.com/yourusername" target="_blank" rel="noreferrer">
+                  GitHub
+                </a>
+                <a href="/cv.pdf" target="_blank" rel="noreferrer">
+                  CV
+                </a>
+                <a href="https://x.com/miriamcore_" target="_blank" rel="noreferrer">
+                  X
+                </a>
+                <a href="mailto:hello@example.com">Email</a>
               </div>
             </div>
-          </section>
-        ) : (
-          <>
-            <section className="panel panel-about" id="about">
-              <div className="panel-intro">
-                <h2>About</h2>
-              </div>
-              <div className="about-note">
-                <p>
-                  Miriam is a writer and developer in New York.
-                </p>
-              </div>
-            </section>
+          </div>
+        </section>
 
-            <section className="panel panel-writing" id="writing">
-              <div className="panel-intro">
-                <h2>Selected Writing</h2>
-              </div>
-              <div className="writing-list">
-                <div className="writing-entries">
-                  {writingLinks.map((item) => (
-                    <a
-                      className="writing-entry"
-                      href={item.link}
-                      key={`${item.title}-${item.venue}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <div className="writing-summary">
-                        <div>
-                          <h4>{item.title}</h4>
-                          <p>{item.venue}</p>
-                        </div>
-                        <p className="writing-date">{item.date}</p>
-                      </div>
+        <section id="projects" className="section">
+          <div className="section-heading">
+            <h2>Projects</h2>
+            <p>Selected software work and visual experiments.</p>
+          </div>
+
+          <div className="project-list">
+            {projects.map((project, index) => (
+              <article key={project.title} className={`project-row project-row-${index + 1}`}>
+                <a href={project.href} target="_blank" rel="noreferrer" className="project-image">
+                  {project.gifSrc ? <img src={project.gifSrc} alt={`${project.title} preview`} /> : null}
+                </a>
+                <div className="project-text">
+                  <h3>{project.title}</h3>
+                  <p className="project-marginalia">{project.marginalia}</p>
+                  <p>{project.description}</p>
+                  <div className="project-meta">
+                    <span>{project.languageTag}</span>
+                    <a href={project.href} target="_blank" rel="noreferrer">
+                      Visit
                     </a>
-                  ))}
+                  </div>
                 </div>
-              </div>
-              <a className="more-writing-link" href="#/selected-writing">
-                (More)
-              </a>
-            </section>
+              </article>
+            ))}
+          </div>
+        </section>
 
-            <section className="panel panel-coding" id="coding">
-              <div className="panel-intro">
-                <h2>Coding Projects</h2>
-              </div>
-              <div className="card-grid">
-                {codingProjects.map((project) => (
-                  <a
-                    className="project-card"
-                    href={project.repoUrl}
-                    key={project.title}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <div className="project-preview">
-                      {project.gifSrc ? (
-                        <img src={project.gifSrc} alt={`${project.title} preview`} />
-                      ) : (
-                        <div className="project-placeholder">Add project GIF</div>
-                      )}
+        <section id="writing" className="section">
+          <div className="section-heading">
+            <h2>Writing</h2>
+            <p>Recent publications, drafts, and work in progress.</p>
+          </div>
+
+          <div className="writing-list">
+            {visibleWriting.map((entry) => (
+              <article key={`${entry.title}-${entry.venue}`} className="writing-item">
+                <a href={entry.href} target="_blank" rel="noreferrer" className="writing-link">
+                  <div className="writing-date">{entry.date}</div>
+                  <div className="writing-main">
+                    <h3>{entry.title}</h3>
+                    <div className="writing-footer">
+                      <p className="writing-venue">{entry.venue}</p>
+                      <span className="writing-note">{entry.note}</span>
                     </div>
-                    <div className="project-meta">
-                      <p className="card-type">{project.type}</p>
-                      <p className="project-date">{project.date}</p>
-                    </div>
-                    <h3>{project.title}</h3>
-                  </a>
-                ))}
-              </div>
-            </section>
-          </>
-        )}
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            className="writing-toggle"
+            onClick={() => setShowMoreWriting((prev) => !prev)}
+          >
+            {showMoreWriting ? 'Show fewer' : 'Show more'}
+          </button>
+        </section>
       </main>
+
     </div>
   )
 }
