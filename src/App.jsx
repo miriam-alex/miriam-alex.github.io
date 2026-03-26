@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+const assetPath = (path) => `${import.meta.env.BASE_URL}${path}`
+
 const themes = [
   { id: 'sea-glass', label: 'Sea Glass' },
   { id: 'paper-oxblood', label: 'Paper' },
@@ -35,7 +37,7 @@ const projects = [
       'A team-based, physical cooking rhythm game. Created in a team at Cornell Tech.',
     languageTag: 'Raspberry Pi · Python',
     href: 'https://github.com/amandazlu/IDD_Final_Project/wiki',
-    gifSrc: '/project-gifs/shortstaffed.gif',
+    gifSrc: 'project-gifs/shortstaffed.gif',
     marginalia: '2025',
   },
   {
@@ -44,7 +46,7 @@ const projects = [
       'A virtual puppet that follows your movements. Created in a team at Cornell Tech.',
     languageTag: 'MediaPipe · Raspberry Pi · Python',
     href: 'https://github.com/chenyingyu-main/Interactive-Lab-Hub/tree/Fall2025/Lab%205',
-    gifSrc: '/project-gifs/ekko.gif',
+    gifSrc: 'project-gifs/ekko.gif',
     marginalia: '2025',
   },
   {
@@ -53,7 +55,7 @@ const projects = [
       'Worked as a research assistant at the Architectural Robotics Lab @ Cornell under Serena (Ge) Guo',
     languageTag: 'RosPy',
     href: 'https://arl.human.cornell.edu/research-MirrorBot.html',
-    gifSrc: '/project-gifs/mirrorbot-gif.gif',
+    gifSrc: 'project-gifs/mirrorbot-gif.gif',
     marginalia: 'Fostering Serendipitous Human Connections Through Robotic Mirrors',
   },
 ]
@@ -199,7 +201,7 @@ export default function App() {
             {projects.map((project, index) => (
               <article key={project.title} className={`project-row project-row-${index + 1}`}>
                 <a href={project.href} target="_blank" rel="noreferrer" className="project-image">
-                  {project.gifSrc ? <img src={project.gifSrc} alt={`${project.title} preview`} /> : null}
+                  {project.gifSrc ? <img src={assetPath(project.gifSrc)} alt={`${project.title} preview`} /> : null}
                 </a>
                 <div className="project-text">
                   <h3>{project.title}</h3>
