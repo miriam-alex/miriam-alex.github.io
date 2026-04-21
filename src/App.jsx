@@ -54,9 +54,9 @@ const projects = [
     description:
       'Worked as a research assistant at the Architectural Robotics Lab @ Cornell under Serena (Ge) Guo',
     languageTag: 'RosPy',
-    href: 'https://arl.human.cornell.edu/research-MirrorBot.html',
+    href: 'https://dl.acm.org/doi/full/10.1145/3772318.3791832',
     gifSrc: 'project-gifs/mirrorbot-gif.gif',
-    marginalia: 'Fostering Serendipitous Human Connections Through Robotic Mirrors',
+    marginalia: 'When We\'re Looking at the Robot, We See Each Other',
   },
 ]
 
