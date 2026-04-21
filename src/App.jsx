@@ -32,7 +32,7 @@ const projects = [
   //   marginalia: 'Utilities for writing days, maintenance days, in-between days.',
   // },
   {
-    title: 'Shortstaffed',
+    title: 'Short-staffed',
     description:
       'A team-based, physical cooking rhythm game. Created in a team at Cornell Tech.',
     languageTag: 'Raspberry Pi · Python',
